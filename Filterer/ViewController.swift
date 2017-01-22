@@ -23,32 +23,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet var secondaryMenu: UIView!
     @IBOutlet var bottomMenu: UIView!
     
-    @IBAction func onSlider(sender: UISlider) {
-        print("on slider")
-        sliderValue = Int(sender.value)
-        print( sliderValue )
-        // sliderValue = roundUp(Int(sender.value), divisor: 1000)
-        
-        if redButton.selected == true {
-            filteredImage = RedFilter(percentage: sliderValue!).filter( originalImage! )
-        }
-        if greenButton.selected == false {
-            filteredImage = GreenFilter(percentage: sliderValue!).filter( originalImage! )
-        }
-        if blueButton.selected == false {
-            filteredImage = GreenFilter(percentage: sliderValue!).filter( originalImage! )
-        }
-        if greyButton.selected == false {
-            
-        }
-        if bwButton.selected == false {
-            
-        }
-        
-        imageView.image = filteredImage
-
-    }
-    
     @IBOutlet var filterButton: UIButton!
     @IBOutlet weak var redButton: UIButton!
     @IBOutlet weak var greenButton: UIButton!
@@ -73,19 +47,56 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         compareButton.enabled = false
     }
     
+    @IBAction func onCompare(sender: UIButton) {
+        if compareButton.selected {
+            let toImage = filteredImage
+            UIView.transitionWithView(self.imageView,
+                                      duration:1,
+                                      options: UIViewAnimationOptions.TransitionCrossDissolve,
+                                      animations: { self.imageView.image = toImage },
+                                      completion: nil)
+            imageView.image = filteredImage
+            compareButton.selected = false
+        } else {
+            // http://stackoverflow.com/questions/7638831/fade-dissolve-when-changing-uiimageviews-image
+            let toImage = originalImage
+            UIView.transitionWithView(self.imageView,
+                                      duration:1,
+                                      options: UIViewAnimationOptions.TransitionCrossDissolve,
+                                      animations: { self.imageView.image = toImage },
+                                      completion: nil)
+            imageView.image = originalImage
+            compareButton.selected = true
+            
+        }
+    }
+    
     // trick is to make sure the image view can see gestures!
     @IBAction func onImagePress(sender: AnyObject) {
-        print("Long tap")
+        //print("Long tap")
         if sender.state == .Ended {
-            print("touches ended view")
+            //print("touches ended view")
             if filteredImage == nil {
                 imageView.image = originalImage
             } else {
+                let toImage = filteredImage
+                UIView.transitionWithView(self.imageView,
+                                          duration:1,
+                                          options: UIViewAnimationOptions.TransitionCrossDissolve,
+                                          animations: { self.imageView.image = toImage },
+                                          completion: nil)
                 imageView.image = filteredImage
             }
         }
         else if sender.state == .Began {
-            print("touches began view")
+            // print("touches began view")
+            let toImage = originalImage
+            UIView.transitionWithView(self.imageView,
+                                      duration:1,
+                                      options: UIViewAnimationOptions.TransitionCrossDissolve,
+                                      animations: { self.imageView.image = toImage },
+                                      completion: nil)
+
             imageView.image = originalImage
         }
     }
@@ -106,6 +117,27 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     //    }
     
     
+    @IBAction func onSlider(sender: UISlider) {
+        // print("on slider")
+        // print( sliderValue )
+        sliderValue = Int(sender.value)
+        // sliderValue = roundUp(Int(sender.value), divisor: 1000)
+        if redButton.selected == true {
+            filteredImage = RedFilter(percentage: sliderValue!).filter( originalImage! )
+        }
+        if greenButton.selected == false {
+            filteredImage = GreenFilter(percentage: sliderValue!).filter( originalImage! )
+        }
+        if blueButton.selected == false {
+            filteredImage = GreenFilter(percentage: sliderValue!).filter( originalImage! )
+        }
+        if greyButton.selected == false {
+        }
+        if bwButton.selected == false {
+        }
+        imageView.image = filteredImage
+    }
+   
     @IBAction func onRedFilter(sender: UIButton) {
         if redButton.selected {
             redButton.selected = false
@@ -167,25 +199,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func onBWFilter(sender: UIButton) {
-    }
-    
-    @IBAction func onCompare(sender: UIButton) {
-        if compareButton.selected {
-            compareButton.selected = false
-            //            self.imageView.alpha = 0
-            imageView.image = filteredImage
-            UIView.animateWithDuration(0.4) {
-                self.imageView.alpha = 1.0
-            }
-        } else {
-            // get a filtered image (for now)
-            compareButton.selected = true
-            //            self.imageView.alpha = 0
-            imageView.image = originalImage
-            UIView.animateWithDuration(0.4) {
-                self.imageView.alpha = 1.0
-            }
-        }
     }
     
     // MARK: Share
