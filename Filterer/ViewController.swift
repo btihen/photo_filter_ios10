@@ -14,29 +14,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var originalImage: UIImage?
     
     @IBOutlet var imageView: UIImageView!
-    @IBOutlet var longPressImageGesture: UILongPressGestureRecognizer!
     
-    @IBAction func onLongPressImage(sender: UILongPressGestureRecognizer) {
-        print("Long tap")
-        //        print("Long tap")
-        //        if sender.state == .Ended {
-        //            print("UIGestureRecognizerStateEnded")
-        //            //Do Whatever You want on End of Gesture
-        //            imageView.image = filteredImage
-        //        }
-        //        else if sender.state == .Began {
-        //            print("UIGestureRecognizerStateBegan.")
-        //            //Do Whatever You want on Began of Gesture
-        //            imageView.image = originalImage
-        //        }
-    }
+//    func onLongPressImage(sender: UILongPressGestureRecognizer) {
+//        print("Long tap")
+//        //        print("Long tap")
+//        //        if sender.state == .Ended {
+//        //            print("UIGestureRecognizerStateEnded")
+//        //            //Do Whatever You want on End of Gesture
+//        //            imageView.image = filteredImage
+//        //        }
+//        //        else if sender.state == .Began {
+//        //            print("UIGestureRecognizerStateBegan.")
+//        //            //Do Whatever You want on Began of Gesture
+//        //            imageView.image = originalImage
+//        //        }
+//    }
     
-    @IBOutlet var imageTapGesture: UITapGestureRecognizer!
-    
-    @IBAction func onImageTab(sender: UITapGestureRecognizer) {
-        print("Short tap")
-    }
-
     
     @IBOutlet var sliderMenu: UIView!
     @IBOutlet var secondaryMenu: UIView!
@@ -45,7 +38,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func onSlider(sender: UISlider) {
         print("on slider")
     }
-    
     
     @IBOutlet var filterButton: UIButton!
     @IBOutlet weak var redButton: UIButton!
@@ -69,6 +61,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         imageView.image = originalImage
         // on app load - disable compare button since there is no filtered image yet
         compareButton.enabled = false
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesBegan(touches, withEvent: event)
+        print("touches began view")
+        imageView.image = originalImage
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesEnded(touches, withEvent: event)
+        print("touches ended view")
+        if filteredImage == nil {
+            imageView.image = originalImage
+        } else {
+            imageView.image = filteredImage
+        }
     }
     
     @IBAction func onRedFilter(sender: UIButton) {
@@ -135,12 +143,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBAction func onCompare(sender: UIButton) {
         if compareButton.selected {
-            imageView.image = filteredImage
             compareButton.selected = false
+            //            self.imageView.alpha = 0
+            imageView.image = filteredImage
+            UIView.animateWithDuration(0.4) {
+                self.imageView.alpha = 1.0
+            }
         } else {
             // get a filtered image (for now)
-            imageView.image = originalImage
             compareButton.selected = true
+            //            self.imageView.alpha = 0
+            imageView.image = originalImage
+            UIView.animateWithDuration(0.4) {
+                self.imageView.alpha = 1.0
+            }
         }
     }
     
