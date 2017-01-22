@@ -9,27 +9,15 @@
 import UIKit
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    var sliderValue: Int?
 
     var filteredImage: UIImage?
     var originalImage: UIImage?
     
     @IBOutlet var imageView: UIImageView!
     
-//    func onLongPressImage(sender: UILongPressGestureRecognizer) {
-//        print("Long tap")
-//        //        print("Long tap")
-//        //        if sender.state == .Ended {
-//        //            print("UIGestureRecognizerStateEnded")
-//        //            //Do Whatever You want on End of Gesture
-//        //            imageView.image = filteredImage
-//        //        }
-//        //        else if sender.state == .Began {
-//        //            print("UIGestureRecognizerStateBegan.")
-//        //            //Do Whatever You want on Began of Gesture
-//        //            imageView.image = originalImage
-//        //        }
-//    }
-    
+    @IBOutlet var imagePressGesture: UILongPressGestureRecognizer!
     
     @IBOutlet var sliderMenu: UIView!
     @IBOutlet var secondaryMenu: UIView!
@@ -37,6 +25,28 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBAction func onSlider(sender: UISlider) {
         print("on slider")
+        sliderValue = Int(sender.value)
+        print( sliderValue )
+        // sliderValue = roundUp(Int(sender.value), divisor: 1000)
+        
+        if redButton.selected == true {
+            filteredImage = RedFilter(percentage: sliderValue!).filter( originalImage! )
+        }
+        if greenButton.selected == false {
+            filteredImage = GreenFilter(percentage: sliderValue!).filter( originalImage! )
+        }
+        if blueButton.selected == false {
+            filteredImage = GreenFilter(percentage: sliderValue!).filter( originalImage! )
+        }
+        if greyButton.selected == false {
+            
+        }
+        if bwButton.selected == false {
+            
+        }
+        
+        imageView.image = filteredImage
+
     }
     
     @IBOutlet var filterButton: UIButton!
@@ -63,21 +73,38 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         compareButton.enabled = false
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
-        print("touches began view")
-        imageView.image = originalImage
-    }
-    
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
-        print("touches ended view")
-        if filteredImage == nil {
+    // trick is to make sure the image view can see gestures!
+    @IBAction func onImagePress(sender: AnyObject) {
+        print("Long tap")
+        if sender.state == .Ended {
+            print("touches ended view")
+            if filteredImage == nil {
+                imageView.image = originalImage
+            } else {
+                imageView.image = filteredImage
+            }
+        }
+        else if sender.state == .Began {
+            print("touches began view")
             imageView.image = originalImage
-        } else {
-            imageView.image = filteredImage
         }
     }
+    //    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    //        super.touchesBegan(touches, withEvent: event)
+    //        print("touches began view")
+    //        imageView.image = originalImage
+    //    }
+    //
+    //    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    //        super.touchesEnded(touches, withEvent: event)
+    //        print("touches ended view")
+    //        if filteredImage == nil {
+    //            imageView.image = originalImage
+    //        } else {
+    //            imageView.image = filteredImage
+    //        }
+    //    }
+    
     
     @IBAction func onRedFilter(sender: UIButton) {
         if redButton.selected {
@@ -93,8 +120,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             greyButton.selected   = false
             bwButton.selected     = false
             compareButton.enabled = true
-            showSliderMenu()
             filteredImage = RedFilter(percentage: 50).filter( originalImage! )
+            showSliderMenu()
+            // filteredImage = RedFilter(percentage: sliderValue!).filter( originalImage! )
             imageView.image = filteredImage
         }
     }
