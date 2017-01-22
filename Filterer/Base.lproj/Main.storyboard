@@ -90,10 +90,15 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="blueButton" destination="sNq-be-bSy" id="Cte-ub-hzf"/>
                         <outlet property="bottomMenu" destination="JNF-wb-wwY" id="jTm-2q-PDu"/>
+                        <outlet property="bwButton" destination="7P8-VM-YCw" id="T6J-SF-U4O"/>
                         <outlet property="compareButton" destination="tPg-2N-f93" id="Tz1-MC-Xv9"/>
                         <outlet property="filterButton" destination="C6B-1F-j0K" id="6Kf-1q-zun"/>
+                        <outlet property="greenButton" destination="axt-GK-a6m" id="9On-7y-QbL"/>
+                        <outlet property="greyButton" destination="zUq-ef-bpc" id="6I3-hD-wbG"/>
                         <outlet property="imageView" destination="aND-Em-4Dd" id="vbi-rB-DhQ"/>
+                        <outlet property="redButton" destination="Drk-Kp-614" id="NUi-Vf-3qS"/>
                         <outlet property="secondaryMenu" destination="ePS-oG-ZHP" id="Be7-JW-Iwe"/>
                     </connections>
                 </viewController>
@@ -108,22 +113,37 @@
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Drk-Kp-614">
                                     <rect key="frame" x="0.0" y="0.0" width="48" height="128"/>
                                     <state key="normal" title="Red"/>
+                                    <connections>
+                                        <action selector="onRedFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Obk-Kc-Xpr"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="axt-GK-a6m">
                                     <rect key="frame" x="48" y="0.0" width="48" height="128"/>
                                     <state key="normal" title="Green"/>
+                                    <connections>
+                                        <action selector="onGreenFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xYF-cV-Ukl"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sNq-be-bSy">
                                     <rect key="frame" x="96" y="0.0" width="48" height="128"/>
                                     <state key="normal" title="Blue"/>
+                                    <connections>
+                                        <action selector="onBlueFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Zlq-oB-2N2"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zUq-ef-bpc">
                                     <rect key="frame" x="144" y="0.0" width="48" height="128"/>
-                                    <state key="normal" title="Yellow"/>
+                                    <state key="normal" title="Grey"/>
+                                    <connections>
+                                        <action selector="onGreyFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dtK-hx-9SV"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7P8-VM-YCw">
                                     <rect key="frame" x="192" y="0.0" width="48" height="128"/>
-                                    <state key="normal" title="Purple"/>
+                                    <state key="normal" title="B&amp;W"/>
+                                    <connections>
+                                        <action selector="onBWFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pHD-Gi-NpO"/>
+                                    </connections>
                                 </button>
                             </subviews>
                         </stackView>

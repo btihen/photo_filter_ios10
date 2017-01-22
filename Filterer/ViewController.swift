@@ -19,6 +19,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet var bottomMenu: UIView!
     
     @IBOutlet var filterButton: UIButton!
+    @IBOutlet weak var redButton: UIButton!
+    @IBOutlet weak var greenButton: UIButton!
+    @IBOutlet weak var blueButton: UIButton!
+    @IBOutlet weak var greyButton: UIButton!
+    @IBOutlet weak var bwButton: UIButton!
     
     @IBOutlet weak var compareButton: UIButton!
     
@@ -27,16 +32,69 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         secondaryMenu.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
         secondaryMenu.translatesAutoresizingMaskIntoConstraints = false
         
+        // on app load - create an original image
         originalImage = UIImage( named: "scenery" )!
+        // load original image into display
+        imageView.image = originalImage
+        // on app load - disable compare button since there is no filtered image yet
+        compareButton.enabled = false
     }
 
+    @IBAction func onRedFilter(sender: UIButton) {
+        if redButton.selected {
+            redButton.selected = false
+            imageView.image = originalImage
+            // if no other compare buttons are selected
+            compareButton.enabled = false
+        } else {
+            redButton.selected = true
+            compareButton.enabled = true
+            filteredImage = RedFilter(percentage: 50).filter( originalImage! )
+            imageView.image = filteredImage
+        }
+    }
+
+    @IBAction func onGreenFilter(sender: UIButton) {
+        if greenButton.selected {
+            greenButton.selected = false
+            imageView.image = originalImage
+            // if no other compare buttons are selected
+            compareButton.enabled = false
+        } else {
+            greenButton.selected = true
+            compareButton.enabled = true
+            filteredImage = GreenFilter(percentage: 50).filter( originalImage! )
+            imageView.image = filteredImage
+        }
+    }
+    
+    @IBAction func onBlueFilter(sender: UIButton) {
+        if blueButton.selected {
+            blueButton.selected = false
+            imageView.image = originalImage
+            // if no other compare buttons are selected
+            compareButton.enabled = false
+        } else {
+            blueButton.selected = true
+            compareButton.enabled = true
+            filteredImage = BlueFilter(percentage: 50).filter( originalImage! )
+            imageView.image = filteredImage
+        }
+    }
+    
+    @IBAction func onGreyFilter(sender: UIButton) {
+    }
+    
+    @IBAction func onBWFilter(sender: UIButton) {
+    }
+    
     @IBAction func onCompare(sender: UIButton) {
         if compareButton.selected {
-            imageView.image = originalImage
+            imageView.image = filteredImage
             compareButton.selected = false
         } else {
             // get a filtered image (for now)
-            imageView.image = filteredImage
+            imageView.image = originalImage
             compareButton.selected = true
         }
     }
