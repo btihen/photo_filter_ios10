@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -60,7 +61,8 @@
                                                 </constraints>
                                                 <state key="normal" image="Compare"/>
                                                 <connections>
-                                                    <action selector="onCompare:" destination="BYZ-38-t0r" eventType="touchUpInside" id="THM-Zc-EGZ"/>
+                                                    <action selector="endCompare:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PNx-4y-KQE"/>
+                                                    <action selector="onCompare:" destination="BYZ-38-t0r" eventType="touchDown" id="nEe-sD-hsT"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Leg-ry-Zqw">
@@ -110,6 +112,7 @@
                         <outlet property="lightenButton" destination="Drk-Kp-614" id="l07-wG-CUW"/>
                         <outlet property="secondaryMenu" destination="ePS-oG-ZHP" id="Be7-JW-Iwe"/>
                         <outlet property="sliderMenu" destination="HWu-hz-ouJ" id="out-qn-etL"/>
+                        <outlet property="topLabel" destination="fmu-u6-WcB" id="hht-si-DlJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -183,6 +186,25 @@
                         <constraint firstItem="6Tv-nL-np8" firstAttribute="leading" secondItem="HWu-hz-ouJ" secondAttribute="leading" id="71f-oB-Kzw"/>
                         <constraint firstAttribute="trailing" secondItem="6Tv-nL-np8" secondAttribute="trailing" id="CQT-68-jy6"/>
                         <constraint firstItem="6Tv-nL-np8" firstAttribute="top" secondItem="HWu-hz-ouJ" secondAttribute="top" id="UXU-l3-5t4"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" id="fmu-u6-WcB">
+                    <rect key="frame" x="0.0" y="0.0" width="238" height="128"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Original" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QP2-uI-xvo">
+                            <rect key="frame" x="0.0" y="0.0" width="238" height="54"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailingMargin" secondItem="QP2-uI-xvo" secondAttribute="trailing" constant="8" id="Vps-YS-YEE"/>
+                        <constraint firstItem="QP2-uI-xvo" firstAttribute="leading" secondItem="fmu-u6-WcB" secondAttribute="leadingMargin" constant="8" id="g0l-O0-JCE"/>
+                        <constraint firstItem="QP2-uI-xvo" firstAttribute="top" secondItem="fmu-u6-WcB" secondAttribute="topMargin" constant="20" id="yuq-52-QgK"/>
                     </constraints>
                 </view>
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="B4k-cs-id4">

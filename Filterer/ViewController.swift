@@ -18,6 +18,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var imagePressGesture: UILongPressGestureRecognizer!
     
+    @IBOutlet var topLabel: UIView!
     @IBOutlet var sliderMenu: UIView!
     @IBOutlet var secondaryMenu: UIView!
     @IBOutlet var bottomMenu: UIView!
@@ -37,6 +38,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         secondaryMenu.translatesAutoresizingMaskIntoConstraints = false
         sliderMenu.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
         sliderMenu.translatesAutoresizingMaskIntoConstraints = false
+        topLabel.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
+        topLabel.translatesAutoresizingMaskIntoConstraints=false
         
         // on app load - create an original image
         originalImage = UIImage( named: "scenery" )!
@@ -46,29 +49,52 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         compareButton.enabled = false
     }
     
+    
     // http://stackoverflow.com/questions/7638831/fade-dissolve-when-changing-uiimageviews-image
-    @IBAction func onCompare(sender: UIButton) {
-        if compareButton.selected {
-            let toImage = filteredImage
-            UIView.transitionWithView(self.imageView,
-                                      duration:1,
-                                      options: UIViewAnimationOptions.TransitionCrossDissolve,
-                                      animations: { self.imageView.image = toImage },
-                                      completion: nil)
-            imageView.image = filteredImage
-            compareButton.selected = false
-        } else {
-            let toImage = originalImage
-            UIView.transitionWithView(self.imageView,
-                                      duration:1,
-                                      options: UIViewAnimationOptions.TransitionCrossDissolve,
-                                      animations: { self.imageView.image = toImage },
-                                      completion: nil)
-            imageView.image = originalImage
-            compareButton.selected = true
-            
-        }
+    @IBAction func endCompare(sender: UIButton) {
+        hideTopLabel()
+        let toImage = filteredImage
+        UIView.transitionWithView(self.imageView,
+                                  duration:0.5,
+                                  options: UIViewAnimationOptions.TransitionCrossDissolve,
+                                  animations: { self.imageView.image = toImage },
+                                  completion: nil)
+        imageView.image = filteredImage
+        compareButton.selected = false
     }
+    @IBAction func onCompare(sender: UIButton) {
+        showTopLabel()
+        let toImage = originalImage
+        UIView.transitionWithView(self.imageView,
+                                  duration:0.5,
+                                  options: UIViewAnimationOptions.TransitionCrossDissolve,
+                                  animations: { self.imageView.image = toImage },
+                                  completion: nil)
+        imageView.image = originalImage
+        compareButton.selected = true
+    }
+    // @IBAction func compareToggle(sender: UIButton) {
+        //        if compareButton.selected {
+        //            let toImage = filteredImage
+        //            UIView.transitionWithView(self.imageView,
+        //                                      duration:1,
+        //                                      options: UIViewAnimationOptions.TransitionCrossDissolve,
+        //                                      animations: { self.imageView.image = toImage },
+        //                                      completion: nil)
+        //            imageView.image = filteredImage
+        //            compareButton.selected = false
+        //        } else {
+        //            let toImage = originalImage
+        //            UIView.transitionWithView(self.imageView,
+        //                                      duration:1,
+        //                                      options: UIViewAnimationOptions.TransitionCrossDissolve,
+        //                                      animations: { self.imageView.image = toImage },
+        //                                      completion: nil)
+        //            imageView.image = originalImage
+        //            compareButton.selected = true
+        //        }
+    // }
+    
     // trick is to make sure the image view can see gestures!
     @IBAction func onImagePress(sender: AnyObject) {
         // print("Long tap")
@@ -77,9 +103,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             if filteredImage == nil {
                 imageView.image = originalImage
             } else {
+                hideTopLabel()
                 let toImage = filteredImage
                 UIView.transitionWithView(self.imageView,
-                                          duration:1,
+                                          duration:0.5,
                                           options: UIViewAnimationOptions.TransitionCrossDissolve,
                                           animations: { self.imageView.image = toImage },
                                           completion: nil)
@@ -88,9 +115,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
         else if sender.state == .Began {
             // print("touches began view")
+            showTopLabel()
             let toImage = originalImage
             UIView.transitionWithView(self.imageView,
-                                      duration:1,
+                                      duration:0.5,
                                       options: UIViewAnimationOptions.TransitionCrossDissolve,
                                       animations: { self.imageView.image = toImage },
                                       completion: nil)
@@ -114,6 +142,30 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     //            imageView.image = filteredImage
     //        }
     //    }
+    
+    
+    func showTopLabel(){
+        view.addSubview(topLabel)
+        let heightConstraint = topLabel.heightAnchor.constraintEqualToConstant(55)
+        let leftConstraint   = topLabel.leftAnchor.constraintEqualToAnchor(view.leftAnchor)
+        let rightConstraint  = topLabel.rightAnchor.constraintEqualToAnchor(view.rightAnchor)
+        let topConstraint = topLabel.topAnchor.constraintEqualToAnchor(view.topAnchor)
+        //let bottomConstraint = topLabel.bottomAnchor.constraintEqualToAnchor(imageView.topAnchor)
+        NSLayoutConstraint.activateConstraints([topConstraint,leftConstraint,rightConstraint,heightConstraint])
+        //NSLayoutConstraint.activateConstraints([bottomConstraint,leftConstraint,rightConstraint,heightConstraint])
+        view.layoutIfNeeded()
+        topLabel.alpha=0
+        UIView.animateWithDuration(0.2){
+            self.topLabel.alpha=1.0
+        }
+    }
+    
+    func hideTopLabel(){
+        UIView.animateWithDuration(0.4,animations: {self.topLabel.alpha=0}){ completed in
+            if (completed==true){self.topLabel.removeFromSuperview()}
+        }
+    }
+
     
     @IBAction func onSlider(sender: UISlider) {
         // print("on slider")

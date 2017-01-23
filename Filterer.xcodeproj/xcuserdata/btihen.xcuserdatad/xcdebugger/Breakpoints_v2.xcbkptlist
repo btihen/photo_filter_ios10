@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Filterer/ViewController.swift"
-            timestampString = "506889675.451002"
+            timestampString = "506902316.514982"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
-            landmarkName = "onRedFilter(_:)"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
+            landmarkName = "onSlider(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
