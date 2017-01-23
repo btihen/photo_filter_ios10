@@ -23,9 +23,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet var bottomMenu: UIView!
     
     @IBOutlet var filterButton: UIButton!
-    @IBOutlet weak var redButton: UIButton!
-    @IBOutlet weak var greenButton: UIButton!
-    @IBOutlet weak var blueButton: UIButton!
+    @IBOutlet weak var lightenButton: UIButton!
+    @IBOutlet weak var darkenButton: UIButton!
+    @IBOutlet weak var contrastButton: UIButton!
     @IBOutlet weak var greyButton: UIButton!
     @IBOutlet weak var bwButton: UIButton!
     
@@ -120,13 +120,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // print( sliderValue )
         sliderValue = Int(sender.value)
         // sliderValue = roundUp(Int(sender.value), divisor: 1000)
-        if redButton.selected == true {
+        if lightenButton.selected == true {
             filteredImage = LightenFilter(percentage: sliderValue!).filter( originalImage! )
         }
-        if greenButton.selected == true {
+        if darkenButton.selected == true {
             filteredImage = DarkenFilter(percentage: sliderValue!).filter( originalImage! )
         }
-        if blueButton.selected == true {
+        if contrastButton.selected == true {
             //print( sliderValue )
             filteredImage = ContrastFilter(percentage: sliderValue!).filter( originalImage! )
         }
@@ -139,17 +139,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         imageView.image = filteredImage
     }
    
-    @IBAction func onRedFilter(sender: UIButton) {
-        if redButton.selected {
-            redButton.selected = false
+    @IBAction func onLightenFilter(sender: UIButton) {
+        if lightenButton.selected {
+            lightenButton.selected = false
             imageView.image = originalImage
             // if no other compare buttons are selected
             compareButton.enabled = false
             hideSliderMenu()
         } else {
-            redButton.selected    = true
-            greenButton.selected  = false
-            blueButton.selected   = false
+            lightenButton.selected    = true
+            darkenButton.selected  = false
+            contrastButton.selected   = false
             greyButton.selected   = false
             bwButton.selected     = false
             compareButton.enabled = true
@@ -159,16 +159,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
 
-    @IBAction func onGreenFilter(sender: UIButton) {
-        if greenButton.selected {
-            greenButton.selected = false
+    @IBAction func onDarkenFilter(sender: UIButton) {
+        if darkenButton.selected {
+            darkenButton.selected = false
             imageView.image = originalImage
             // if no other compare buttons are selected
             compareButton.enabled = false
         } else {
-            redButton.selected    = false
-            greenButton.selected  = true
-            blueButton.selected   = false
+            lightenButton.selected    = false
+            darkenButton.selected  = true
+            contrastButton.selected   = false
             greyButton.selected   = false
             bwButton.selected     = false
             compareButton.enabled = true
@@ -178,16 +178,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
-    @IBAction func onBlueFilter(sender: UIButton) {
-        if blueButton.selected {
-            blueButton.selected = false
+    @IBAction func onContrastFilter(sender: UIButton) {
+        if contrastButton.selected {
+            contrastButton.selected = false
             imageView.image = originalImage
             // if no other compare buttons are selected
             compareButton.enabled = false
         } else {
-            redButton.selected    = false
-            greenButton.selected  = false
-            blueButton.selected   = true
+            lightenButton.selected    = false
+            darkenButton.selected  = false
+            contrastButton.selected   = true
             greyButton.selected   = false
             bwButton.selected     = false
             compareButton.enabled = true
@@ -202,9 +202,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             greyButton.selected = false
             imageView.image = originalImage
         } else {
-            redButton.selected    = false
-            greenButton.selected  = false
-            blueButton.selected   = false
+            lightenButton.selected    = false
+            darkenButton.selected  = false
+            contrastButton.selected   = false
             greyButton.selected   = true
             bwButton.selected     = false
             compareButton.enabled = true
@@ -219,9 +219,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             bwButton.selected = false
             imageView.image = originalImage
         } else {
-            redButton.selected    = false
-            greenButton.selected  = false
-            blueButton.selected   = false
+            lightenButton.selected    = false
+            darkenButton.selected  = false
+            contrastButton.selected   = false
             greyButton.selected   = false
             bwButton.selected     = true
             compareButton.enabled = true
@@ -353,4 +353,3 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
 
 }
-
