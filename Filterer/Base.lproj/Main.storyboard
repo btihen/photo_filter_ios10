@@ -122,21 +122,21 @@
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Drk-Kp-614">
                                     <rect key="frame" x="0.0" y="0.0" width="48" height="128"/>
-                                    <state key="normal" title="Red"/>
+                                    <state key="normal" title="Brighten"/>
                                     <connections>
                                         <action selector="onRedFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Obk-Kc-Xpr"/>
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="axt-GK-a6m">
                                     <rect key="frame" x="48" y="0.0" width="48" height="128"/>
-                                    <state key="normal" title="Green"/>
+                                    <state key="normal" title="Darker"/>
                                     <connections>
                                         <action selector="onGreenFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xYF-cV-Ukl"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sNq-be-bSy">
+                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sNq-be-bSy">
                                     <rect key="frame" x="96" y="0.0" width="48" height="128"/>
-                                    <state key="normal" title="Blue"/>
+                                    <state key="normal" title="Contrast"/>
                                     <connections>
                                         <action selector="onBlueFilter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Zlq-oB-2N2"/>
                                     </connections>
@@ -170,8 +170,8 @@
                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <slider opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="50" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="6Tv-nL-np8">
-                            <rect key="frame" x="-2" y="49" width="244" height="31"/>
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="75" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="6Tv-nL-np8">
+                            <rect key="frame" x="-2" y="0.0" width="244" height="129"/>
                             <connections>
                                 <action selector="onSlider:" destination="BYZ-38-t0r" eventType="valueChanged" id="kLV-3Z-c7F"/>
                             </connections>

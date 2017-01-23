@@ -16,7 +16,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var originalImage: UIImage?
     
     @IBOutlet var imageView: UIImageView!
-    
     @IBOutlet var imagePressGesture: UILongPressGestureRecognizer!
     
     @IBOutlet var sliderMenu: UIView!
@@ -47,6 +46,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         compareButton.enabled = false
     }
     
+    // http://stackoverflow.com/questions/7638831/fade-dissolve-when-changing-uiimageviews-image
     @IBAction func onCompare(sender: UIButton) {
         if compareButton.selected {
             let toImage = filteredImage
@@ -58,7 +58,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             imageView.image = filteredImage
             compareButton.selected = false
         } else {
-            // http://stackoverflow.com/questions/7638831/fade-dissolve-when-changing-uiimageviews-image
             let toImage = originalImage
             UIView.transitionWithView(self.imageView,
                                       duration:1,
@@ -70,10 +69,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             
         }
     }
-    
     // trick is to make sure the image view can see gestures!
     @IBAction func onImagePress(sender: AnyObject) {
-        //print("Long tap")
+        print("Long tap")
         if sender.state == .Ended {
             //print("touches ended view")
             if filteredImage == nil {
@@ -123,17 +121,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         sliderValue = Int(sender.value)
         // sliderValue = roundUp(Int(sender.value), divisor: 1000)
         if redButton.selected == true {
-            filteredImage = RedFilter(percentage: sliderValue!).filter( originalImage! )
+            filteredImage = LightenFilter(percentage: sliderValue!).filter( originalImage! )
         }
-        if greenButton.selected == false {
-            filteredImage = GreenFilter(percentage: sliderValue!).filter( originalImage! )
+        if greenButton.selected == true {
+            filteredImage = DarkenFilter(percentage: sliderValue!).filter( originalImage! )
         }
-        if blueButton.selected == false {
-            filteredImage = GreenFilter(percentage: sliderValue!).filter( originalImage! )
+        if blueButton.selected == true {
+            //print( sliderValue )
+            filteredImage = ContrastFilter(percentage: sliderValue!).filter( originalImage! )
         }
-        if greyButton.selected == false {
+        if greyButton.selected == true {
+            filteredImage = GreyFilter(percentage: sliderValue!).filter( originalImage! )
         }
-        if bwButton.selected == false {
+        if bwButton.selected == true {
+            filteredImage = BnWFilter(percentage: sliderValue!).filter( originalImage! )
         }
         imageView.image = filteredImage
     }
@@ -152,9 +153,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             greyButton.selected   = false
             bwButton.selected     = false
             compareButton.enabled = true
-            filteredImage = RedFilter(percentage: 50).filter( originalImage! )
+            filteredImage = LightenFilter(percentage: 75).filter( originalImage! )
             showSliderMenu()
-            // filteredImage = RedFilter(percentage: sliderValue!).filter( originalImage! )
             imageView.image = filteredImage
         }
     }
@@ -172,7 +172,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             greyButton.selected   = false
             bwButton.selected     = false
             compareButton.enabled = true
-            filteredImage = GreenFilter(percentage: 50).filter( originalImage! )
+            filteredImage = DarkenFilter(percentage: 75).filter( originalImage! )
+            showSliderMenu()
             imageView.image = filteredImage
         }
     }
@@ -190,15 +191,44 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             greyButton.selected   = false
             bwButton.selected     = false
             compareButton.enabled = true
-            filteredImage = BlueFilter(percentage: 50).filter( originalImage! )
+            filteredImage = ContrastFilter(percentage: 75).filter( originalImage! )
+            showSliderMenu()
             imageView.image = filteredImage
         }
     }
     
     @IBAction func onGreyFilter(sender: UIButton) {
+        if greyButton.selected {
+            greyButton.selected = false
+            imageView.image = originalImage
+        } else {
+            redButton.selected    = false
+            greenButton.selected  = false
+            blueButton.selected   = false
+            greyButton.selected   = true
+            bwButton.selected     = false
+            compareButton.enabled = true
+            filteredImage = GreyFilter(percentage: 75).filter( originalImage! )
+            showSliderMenu()
+            imageView.image = filteredImage
+        }
     }
     
     @IBAction func onBWFilter(sender: UIButton) {
+        if bwButton.selected {
+            bwButton.selected = false
+            imageView.image = originalImage
+        } else {
+            redButton.selected    = false
+            greenButton.selected  = false
+            blueButton.selected   = false
+            greyButton.selected   = false
+            bwButton.selected     = true
+            compareButton.enabled = true
+            filteredImage = BnWFilter(percentage: 75).filter( originalImage! )
+            showSliderMenu()
+            imageView.image = filteredImage
+        }
     }
     
     // MARK: Share
@@ -271,7 +301,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let leftConstraint = sliderMenu.leftAnchor.constraintEqualToAnchor(view.leftAnchor)
         let rightConstraint = sliderMenu.rightAnchor.constraintEqualToAnchor(view.rightAnchor)
         
-        let heightConstraint = sliderMenu.heightAnchor.constraintEqualToConstant(44)
+        let heightConstraint = sliderMenu.heightAnchor.constraintEqualToConstant(45)
         
         NSLayoutConstraint.activateConstraints([bottomConstraint, leftConstraint, rightConstraint, heightConstraint])
         
@@ -300,7 +330,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let leftConstraint = secondaryMenu.leftAnchor.constraintEqualToAnchor(view.leftAnchor)
         let rightConstraint = secondaryMenu.rightAnchor.constraintEqualToAnchor(view.rightAnchor)
         
-        let heightConstraint = secondaryMenu.heightAnchor.constraintEqualToConstant(44)
+        let heightConstraint = secondaryMenu.heightAnchor.constraintEqualToConstant(45)
         
         NSLayoutConstraint.activateConstraints([bottomConstraint, leftConstraint, rightConstraint, heightConstraint])
         
