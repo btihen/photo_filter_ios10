@@ -71,7 +71,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     // trick is to make sure the image view can see gestures!
     @IBAction func onImagePress(sender: AnyObject) {
-        print("Long tap")
+        // print("Long tap")
         if sender.state == .Ended {
             //print("touches ended view")
             if filteredImage == nil {
@@ -98,6 +98,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             imageView.image = originalImage
         }
     }
+    // doing touches by hand - just experimenting
     //    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
     //        super.touchesBegan(touches, withEvent: event)
     //        print("touches began view")
@@ -113,7 +114,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     //            imageView.image = filteredImage
     //        }
     //    }
-    
     
     @IBAction func onSlider(sender: UISlider) {
         // print("on slider")
