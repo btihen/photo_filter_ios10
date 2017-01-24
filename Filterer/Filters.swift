@@ -17,7 +17,7 @@ public struct ContrastFilter {
         p = percentage * 2 - 100
     }
     
-    public func filter(image: UIImage) -> UIImage {
+    public func filter(_ image: UIImage) -> UIImage {
         var newImage = RGBAImage(image: image)
         if newImage == nil {
             print("Image open failed.")
@@ -48,7 +48,7 @@ public struct LightenFilter {
         p = percentage
     }
     
-    public func filter(image: UIImage) -> UIImage {
+    public func filter(_ image: UIImage) -> UIImage {
         var newImage = RGBAImage(image: image)
         if newImage == nil {
             print("Image open failed.")
@@ -78,7 +78,7 @@ public struct DarkenFilter {
         p = percentage
     }
     
-    public func filter(image: UIImage) -> UIImage {
+    public func filter(_ image: UIImage) -> UIImage {
         var newImage = RGBAImage(image: image)
         if newImage == nil {
             print("Image open failed.")
@@ -109,7 +109,7 @@ public struct GreyFilter {
         p = percentage
     }
     
-    public func filter(image: UIImage) -> UIImage {
+    public func filter(_ image: UIImage) -> UIImage {
         var newImage = RGBAImage(image: image)
         if newImage == nil {
             print("Image open failed.")
@@ -139,7 +139,7 @@ public struct BnWFilter {
         p = percentage * 2 - 100
     }
     
-    public func filter(image: UIImage) -> UIImage {
+    public func filter(_ image: UIImage) -> UIImage {
         var newImage = RGBAImage(image: image)
         if newImage == nil {
             print("Image open failed.")

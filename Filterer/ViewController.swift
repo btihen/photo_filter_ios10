@@ -34,11 +34,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        secondaryMenu.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
+        secondaryMenu.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         secondaryMenu.translatesAutoresizingMaskIntoConstraints = false
-        sliderMenu.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
+        sliderMenu.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         sliderMenu.translatesAutoresizingMaskIntoConstraints = false
-        topLabel.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
+        topLabel.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         topLabel.translatesAutoresizingMaskIntoConstraints=false
         
         // on app load - create an original image
@@ -46,32 +46,32 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // load original image into display
         imageView.image = originalImage
         // on app load - disable compare button since there is no filtered image yet
-        compareButton.enabled = false
+        compareButton.isEnabled = false
     }
     
     
     // http://stackoverflow.com/questions/7638831/fade-dissolve-when-changing-uiimageviews-image
-    @IBAction func endCompare(sender: UIButton) {
+    @IBAction func endCompare(_ sender: UIButton) {
         hideTopLabel()
         let toImage = filteredImage
-        UIView.transitionWithView(self.imageView,
+        UIView.transition(with: self.imageView,
                                   duration:0.5,
-                                  options: UIViewAnimationOptions.TransitionCrossDissolve,
+                                  options: UIViewAnimationOptions.transitionCrossDissolve,
                                   animations: { self.imageView.image = toImage },
                                   completion: nil)
         imageView.image = filteredImage
-        compareButton.selected = false
+        compareButton.isSelected = false
     }
-    @IBAction func onCompare(sender: UIButton) {
+    @IBAction func onCompare(_ sender: UIButton) {
         showTopLabel()
         let toImage = originalImage
-        UIView.transitionWithView(self.imageView,
+        UIView.transition(with: self.imageView,
                                   duration:0.5,
-                                  options: UIViewAnimationOptions.TransitionCrossDissolve,
+                                  options: UIViewAnimationOptions.transitionCrossDissolve,
                                   animations: { self.imageView.image = toImage },
                                   completion: nil)
         imageView.image = originalImage
-        compareButton.selected = true
+        compareButton.isSelected = true
     }
     // @IBAction func compareToggle(sender: UIButton) {
         //        if compareButton.selected {
@@ -96,30 +96,30 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     // }
     
     // trick is to make sure the image view can see gestures!
-    @IBAction func onImagePress(sender: AnyObject) {
+    @IBAction func onImagePress(_ sender: AnyObject) {
         // print("Long tap")
-        if sender.state == .Ended {
+        if sender.state == .ended {
             //print("touches ended view")
             if filteredImage == nil {
                 imageView.image = originalImage
             } else {
                 hideTopLabel()
                 let toImage = filteredImage
-                UIView.transitionWithView(self.imageView,
+                UIView.transition(with: self.imageView,
                                           duration:0.5,
-                                          options: UIViewAnimationOptions.TransitionCrossDissolve,
+                                          options: UIViewAnimationOptions.transitionCrossDissolve,
                                           animations: { self.imageView.image = toImage },
                                           completion: nil)
                 imageView.image = filteredImage
             }
         }
-        else if sender.state == .Began {
+        else if sender.state == .began {
             // print("touches began view")
             showTopLabel()
             let toImage = originalImage
-            UIView.transitionWithView(self.imageView,
+            UIView.transition(with: self.imageView,
                                       duration:0.5,
-                                      options: UIViewAnimationOptions.TransitionCrossDissolve,
+                                      options: UIViewAnimationOptions.transitionCrossDissolve,
                                       animations: { self.imageView.image = toImage },
                                       completion: nil)
 
@@ -146,137 +146,137 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func showTopLabel(){
         view.addSubview(topLabel)
-        let heightConstraint = topLabel.heightAnchor.constraintEqualToConstant(55)
-        let leftConstraint   = topLabel.leftAnchor.constraintEqualToAnchor(view.leftAnchor)
-        let rightConstraint  = topLabel.rightAnchor.constraintEqualToAnchor(view.rightAnchor)
-        let topConstraint = topLabel.topAnchor.constraintEqualToAnchor(view.topAnchor)
+        let heightConstraint = topLabel.heightAnchor.constraint(equalToConstant: 55)
+        let leftConstraint   = topLabel.leftAnchor.constraint(equalTo: view.leftAnchor)
+        let rightConstraint  = topLabel.rightAnchor.constraint(equalTo: view.rightAnchor)
+        let topConstraint = topLabel.topAnchor.constraint(equalTo: view.topAnchor)
         //let bottomConstraint = topLabel.bottomAnchor.constraintEqualToAnchor(imageView.topAnchor)
-        NSLayoutConstraint.activateConstraints([topConstraint,leftConstraint,rightConstraint,heightConstraint])
+        NSLayoutConstraint.activate([topConstraint,leftConstraint,rightConstraint,heightConstraint])
         //NSLayoutConstraint.activateConstraints([bottomConstraint,leftConstraint,rightConstraint,heightConstraint])
         view.layoutIfNeeded()
         topLabel.alpha=0
-        UIView.animateWithDuration(0.2){
+        UIView.animate(withDuration: 0.2, animations: {
             self.topLabel.alpha=1.0
-        }
+        })
     }
     
     func hideTopLabel(){
-        UIView.animateWithDuration(0.4,animations: {self.topLabel.alpha=0}){ completed in
+        UIView.animate(withDuration: 0.4,animations: {self.topLabel.alpha=0}, completion: { completed in
             if (completed==true){self.topLabel.removeFromSuperview()}
-        }
+        })
     }
 
     
-    @IBAction func onSlider(sender: UISlider) {
+    @IBAction func onSlider(_ sender: UISlider) {
         // print("on slider")
         // print( sliderValue )
         sliderValue = Int(sender.value)
         // sliderValue = roundUp(Int(sender.value), divisor: 1000)
-        if lightenButton.selected == true {
+        if lightenButton.isSelected == true {
             filteredImage = LightenFilter(percentage: sliderValue!).filter( originalImage! )
         }
-        if darkenButton.selected == true {
+        if darkenButton.isSelected == true {
             filteredImage = DarkenFilter(percentage: sliderValue!).filter( originalImage! )
         }
-        if contrastButton.selected == true {
+        if contrastButton.isSelected == true {
             //print( sliderValue )
             filteredImage = ContrastFilter(percentage: sliderValue!).filter( originalImage! )
         }
-        if greyButton.selected == true {
+        if greyButton.isSelected == true {
             filteredImage = GreyFilter(percentage: sliderValue!).filter( originalImage! )
         }
-        if bwButton.selected == true {
+        if bwButton.isSelected == true {
             filteredImage = BnWFilter(percentage: sliderValue!).filter( originalImage! )
         }
         imageView.image = filteredImage
     }
    
-    @IBAction func onLightenFilter(sender: UIButton) {
-        if lightenButton.selected {
-            lightenButton.selected = false
+    @IBAction func onLightenFilter(_ sender: UIButton) {
+        if lightenButton.isSelected {
+            lightenButton.isSelected = false
             imageView.image = originalImage
             // if no other compare buttons are selected
-            compareButton.enabled = false
+            compareButton.isEnabled = false
             hideSliderMenu()
         } else {
-            lightenButton.selected    = true
-            darkenButton.selected  = false
-            contrastButton.selected   = false
-            greyButton.selected   = false
-            bwButton.selected     = false
-            compareButton.enabled = true
+            lightenButton.isSelected    = true
+            darkenButton.isSelected  = false
+            contrastButton.isSelected   = false
+            greyButton.isSelected   = false
+            bwButton.isSelected     = false
+            compareButton.isEnabled = true
             filteredImage = LightenFilter(percentage: 75).filter( originalImage! )
             showSliderMenu()
             imageView.image = filteredImage
         }
     }
 
-    @IBAction func onDarkenFilter(sender: UIButton) {
-        if darkenButton.selected {
-            darkenButton.selected = false
+    @IBAction func onDarkenFilter(_ sender: UIButton) {
+        if darkenButton.isSelected {
+            darkenButton.isSelected = false
             imageView.image = originalImage
             // if no other compare buttons are selected
-            compareButton.enabled = false
+            compareButton.isEnabled = false
         } else {
-            lightenButton.selected    = false
-            darkenButton.selected  = true
-            contrastButton.selected   = false
-            greyButton.selected   = false
-            bwButton.selected     = false
-            compareButton.enabled = true
+            lightenButton.isSelected    = false
+            darkenButton.isSelected  = true
+            contrastButton.isSelected   = false
+            greyButton.isSelected   = false
+            bwButton.isSelected     = false
+            compareButton.isEnabled = true
             filteredImage = DarkenFilter(percentage: 75).filter( originalImage! )
             showSliderMenu()
             imageView.image = filteredImage
         }
     }
     
-    @IBAction func onContrastFilter(sender: UIButton) {
-        if contrastButton.selected {
-            contrastButton.selected = false
+    @IBAction func onContrastFilter(_ sender: UIButton) {
+        if contrastButton.isSelected {
+            contrastButton.isSelected = false
             imageView.image = originalImage
             // if no other compare buttons are selected
-            compareButton.enabled = false
+            compareButton.isEnabled = false
         } else {
-            lightenButton.selected    = false
-            darkenButton.selected  = false
-            contrastButton.selected   = true
-            greyButton.selected   = false
-            bwButton.selected     = false
-            compareButton.enabled = true
+            lightenButton.isSelected    = false
+            darkenButton.isSelected  = false
+            contrastButton.isSelected   = true
+            greyButton.isSelected   = false
+            bwButton.isSelected     = false
+            compareButton.isEnabled = true
             filteredImage = ContrastFilter(percentage: 75).filter( originalImage! )
             showSliderMenu()
             imageView.image = filteredImage
         }
     }
     
-    @IBAction func onGreyFilter(sender: UIButton) {
-        if greyButton.selected {
-            greyButton.selected = false
+    @IBAction func onGreyFilter(_ sender: UIButton) {
+        if greyButton.isSelected {
+            greyButton.isSelected = false
             imageView.image = originalImage
         } else {
-            lightenButton.selected    = false
-            darkenButton.selected  = false
-            contrastButton.selected   = false
-            greyButton.selected   = true
-            bwButton.selected     = false
-            compareButton.enabled = true
+            lightenButton.isSelected    = false
+            darkenButton.isSelected  = false
+            contrastButton.isSelected   = false
+            greyButton.isSelected   = true
+            bwButton.isSelected     = false
+            compareButton.isEnabled = true
             filteredImage = GreyFilter(percentage: 75).filter( originalImage! )
             showSliderMenu()
             imageView.image = filteredImage
         }
     }
     
-    @IBAction func onBWFilter(sender: UIButton) {
-        if bwButton.selected {
-            bwButton.selected = false
+    @IBAction func onBWFilter(_ sender: UIButton) {
+        if bwButton.isSelected {
+            bwButton.isSelected = false
             imageView.image = originalImage
         } else {
-            lightenButton.selected    = false
-            darkenButton.selected  = false
-            contrastButton.selected   = false
-            greyButton.selected   = false
-            bwButton.selected     = true
-            compareButton.enabled = true
+            lightenButton.isSelected    = false
+            darkenButton.isSelected  = false
+            contrastButton.isSelected   = false
+            greyButton.isSelected   = false
+            bwButton.isSelected     = true
+            compareButton.isEnabled = true
             filteredImage = BnWFilter(percentage: 75).filter( originalImage! )
             showSliderMenu()
             imageView.image = filteredImage
@@ -284,124 +284,124 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     // MARK: Share
-    @IBAction func onShare(sender: AnyObject) {
+    @IBAction func onShare(_ sender: AnyObject) {
         let activityController = UIActivityViewController(activityItems: ["Check out our really cool app", imageView.image!], applicationActivities: nil)
-        presentViewController(activityController, animated: true, completion: nil)
+        present(activityController, animated: true, completion: nil)
     }
     
     // MARK: New Photo
-    @IBAction func onNewPhoto(sender: AnyObject) {
-        let actionSheet = UIAlertController(title: "New Photo", message: nil, preferredStyle: .ActionSheet)
+    @IBAction func onNewPhoto(_ sender: AnyObject) {
+        let actionSheet = UIAlertController(title: "New Photo", message: nil, preferredStyle: .actionSheet)
         
-        actionSheet.addAction(UIAlertAction(title: "Camera", style: .Default, handler: { action in
+        actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { action in
             self.showCamera()
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "Album", style: .Default, handler: { action in
+        actionSheet.addAction(UIAlertAction(title: "Album", style: .default, handler: { action in
             self.showAlbum()
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
-        self.presentViewController(actionSheet, animated: true, completion: nil)
+        self.present(actionSheet, animated: true, completion: nil)
     }
     
     func showCamera() {
         let cameraPicker = UIImagePickerController()
         cameraPicker.delegate = self
-        cameraPicker.sourceType = .Camera
+        cameraPicker.sourceType = .camera
         
-        presentViewController(cameraPicker, animated: true, completion: nil)
+        present(cameraPicker, animated: true, completion: nil)
     }
     
     func showAlbum() {
         let cameraPicker = UIImagePickerController()
         cameraPicker.delegate = self
-        cameraPicker.sourceType = .PhotoLibrary
+        cameraPicker.sourceType = .photoLibrary
         
-        presentViewController(cameraPicker, animated: true, completion: nil)
+        present(cameraPicker, animated: true, completion: nil)
     }
     
     // MARK: UIImagePickerControllerDelegate
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        dismiss(animated: true, completion: nil)
         if let newImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             originalImage = newImage
             imageView.image = newImage
         }
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
     }
     
     // MARK: Filter Menu
-    @IBAction func onFilter(sender: UIButton) {
-        if (sender.selected) {
+    @IBAction func onFilter(_ sender: UIButton) {
+        if (sender.isSelected) {
             hideSecondaryMenu()
-            sender.selected = false
+            sender.isSelected = false
         } else {
             showSecondaryMenu()
-            sender.selected = true
+            sender.isSelected = true
         }
     }
 
     func showSliderMenu() {
         view.addSubview(sliderMenu)
         
-        let bottomConstraint = sliderMenu.bottomAnchor.constraintEqualToAnchor(secondaryMenu.topAnchor)
-        let leftConstraint = sliderMenu.leftAnchor.constraintEqualToAnchor(view.leftAnchor)
-        let rightConstraint = sliderMenu.rightAnchor.constraintEqualToAnchor(view.rightAnchor)
+        let bottomConstraint = sliderMenu.bottomAnchor.constraint(equalTo: secondaryMenu.topAnchor)
+        let leftConstraint = sliderMenu.leftAnchor.constraint(equalTo: view.leftAnchor)
+        let rightConstraint = sliderMenu.rightAnchor.constraint(equalTo: view.rightAnchor)
         
-        let heightConstraint = sliderMenu.heightAnchor.constraintEqualToConstant(45)
+        let heightConstraint = sliderMenu.heightAnchor.constraint(equalToConstant: 45)
         
-        NSLayoutConstraint.activateConstraints([bottomConstraint, leftConstraint, rightConstraint, heightConstraint])
+        NSLayoutConstraint.activate([bottomConstraint, leftConstraint, rightConstraint, heightConstraint])
         
         view.layoutIfNeeded()
         
         self.sliderMenu.alpha = 0
-        UIView.animateWithDuration(0.4) {
+        UIView.animate(withDuration: 0.4, animations: {
             self.sliderMenu.alpha = 1.0
-        }
+        }) 
     }
     
     func hideSliderMenu() {
-        UIView.animateWithDuration(0.4, animations: {
+        UIView.animate(withDuration: 0.4, animations: {
             self.sliderMenu.alpha = 0
-        }) { completed in
+        }, completion: { completed in
             if completed == true {
                 self.sliderMenu.removeFromSuperview()
             }
-        }
+        }) 
     }
     
     func showSecondaryMenu() {
         view.addSubview(secondaryMenu)
         
-        let bottomConstraint = secondaryMenu.bottomAnchor.constraintEqualToAnchor(bottomMenu.topAnchor)
-        let leftConstraint = secondaryMenu.leftAnchor.constraintEqualToAnchor(view.leftAnchor)
-        let rightConstraint = secondaryMenu.rightAnchor.constraintEqualToAnchor(view.rightAnchor)
+        let bottomConstraint = secondaryMenu.bottomAnchor.constraint(equalTo: bottomMenu.topAnchor)
+        let leftConstraint = secondaryMenu.leftAnchor.constraint(equalTo: view.leftAnchor)
+        let rightConstraint = secondaryMenu.rightAnchor.constraint(equalTo: view.rightAnchor)
         
-        let heightConstraint = secondaryMenu.heightAnchor.constraintEqualToConstant(45)
+        let heightConstraint = secondaryMenu.heightAnchor.constraint(equalToConstant: 45)
         
-        NSLayoutConstraint.activateConstraints([bottomConstraint, leftConstraint, rightConstraint, heightConstraint])
+        NSLayoutConstraint.activate([bottomConstraint, leftConstraint, rightConstraint, heightConstraint])
         
         view.layoutIfNeeded()
         
         self.secondaryMenu.alpha = 0
-        UIView.animateWithDuration(0.4) {
+        UIView.animate(withDuration: 0.4, animations: {
             self.secondaryMenu.alpha = 1.0
-        }
+        }) 
     }
 
     func hideSecondaryMenu() {
-        UIView.animateWithDuration(0.4, animations: {
+        UIView.animate(withDuration: 0.4, animations: {
             self.secondaryMenu.alpha = 0
-            }) { completed in
+            }, completion: { completed in
                 if completed == true {
                     self.secondaryMenu.removeFromSuperview()
                 }
-        }
+        }) 
     }
 
 }
